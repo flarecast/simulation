@@ -6,11 +6,12 @@ using System.Net;
 using System.Net.Sockets;
 using System.Diagnostics;
 using System.Text;
+using System.Globalization;
 
 
 
 
-public class moveCar : MonoBehaviour {
+public class CarController : MonoBehaviour {
 
 	private static readonly int BASE_TTL = 5;
 	private static readonly String pythonAddress = "127.0.0.1";
@@ -28,8 +29,8 @@ public class moveCar : MonoBehaviour {
 	static readonly Vector3 center=   new Vector3(41F, -8.6F,0.0F);
 
 
-	private int imWidth;
-	private int imHeight;
+	private float imWidth;
+	private float imHeight;
 
 	private SpriteRenderer rend;
 
@@ -39,7 +40,10 @@ public class moveCar : MonoBehaviour {
 	}
 
 	// Start on Demand
-	public void Begin (String filename) {
+	public void Begin (String filename, float width, float height) {
+		imWidth = width;
+		imHeight = height;
+
 		int port = 8000 + int.Parse (filename.Split ('.') [1]);
 		File.WriteAllText (Application.dataPath+"/port.txt", port.ToString());
 
@@ -59,9 +63,10 @@ public class moveCar : MonoBehaviour {
 		// Use this to update every second, create UpdatePosition for that
 		//InvokeRepeating("UpdatePosition", 0, 1.0F);
 
-		SpawnPython ();
+		//SpawnPython ();
 
 		//pythonSocket.BeginReceive (receiveBuffer, 0, receiveBuffer.Length, SocketFlags.None, new AsyncCallback(ReceiveCallback),null );
+
 	}
 
 	private void ReceiveCallback(IAsyncResult result){
@@ -100,8 +105,8 @@ public class moveCar : MonoBehaviour {
 		if (text != null && text != "NOP") {
 			string[] tokens = text.Split (' ');
 
-			float coordX = float.Parse (tokens [0]);
-			float coordY = float.Parse (tokens [1]);
+			double coordX = double.Parse (tokens [0], CultureInfo.InvariantCulture.NumberFormat);
+			double coordY = double.Parse (tokens [1], CultureInfo.InvariantCulture.NumberFormat);
 
 			//Debug.Log("X: "+x+" Y: "+y);
 
@@ -112,19 +117,19 @@ public class moveCar : MonoBehaviour {
 			else {
 				rend.color = new Color (1f, 0f, 0f);
 				//pythonSocket.Send(StrToByteArray(coordX+" "+coordY));
-				pythonSocket.Send(BitConverter.GetBytes(BASE_TTL));
+				//pythonSocket.Send(BitConverter.GetBytes(BASE_TTL));
 			}
 		}
 	}
 
-	private Vector3 ConvertCoords (float lat, float lon){
-		float proportionX = (lon - minLon) / (maxLon - minLon);
-		float proportionY = (lat - minLat) / (maxLat - minLat);
+	private Vector3 ConvertCoords (double lat, double lon){
+		double proportionX = (lon - minLon) / (maxLon - minLon);
+		double proportionY = (lat - minLat) / (maxLat - minLat);
 
-		float x = (proportionX * imWidth) - (imWidth / 2);
-		float y = (proportionY * imHeight) - (imHeight / 2);
+		double x = (proportionX * imWidth) - (imWidth / 2);
+		double y = (proportionY * imHeight) - (imHeight / 2);
 
-		return ( new Vector3( x , y , 0.0F));
+		return ( new Vector3((float) x , (float) y , 0.0F));
 	}
 
 	private Socket GetSocket(int port){
@@ -146,11 +151,4 @@ public class moveCar : MonoBehaviour {
 		return encoding.GetBytes(str);
 	}
 
-	public void SetImageHeight(float height){
-		imHeight = (int) height;
-	}
-
-	public void SetImageWidth(float width){
-		imWidth = (int) width;
-	}
 }

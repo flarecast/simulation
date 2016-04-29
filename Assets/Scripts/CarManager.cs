@@ -9,11 +9,13 @@ public class CarManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+
+		float width = gameObject.GetComponent<RectTransform> ().rect.width;
+		float height = gameObject.GetComponent<RectTransform> ().rect.height;
+
 		for (int i = 0; i < NR_CARS; i++) {
 			GameObject newCar = Instantiate (prefab) as GameObject;
-			newCar.SendMessage("SetImageHeight", gameObject.GetComponent<RectTransform>().rect.height);
-			newCar.SendMessage("SetImageWidth", gameObject.GetComponent<RectTransform>().rect.width);
-			newCar.SendMessage ("Begin", "positions/positions." + i + ".txt");
+			newCar.GetComponent<CarController>().Begin("positions/positions." + i + ".txt", width, height);
 		}
 	}
 	
