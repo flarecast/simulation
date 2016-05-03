@@ -5,8 +5,8 @@ from detector import Detector
 class SimulationDetector(Detector):
 
     @on_event
-    def interpret(self, text):
-        return Event(1,1,"simulation", False, time.time(), int(text), None)
+    def interpret(self, content):
+        return Event(1,1,"simulation", False, time.time(), int(content), None)
 
 
 
@@ -20,5 +20,5 @@ class SimulationDetector(Detector):
         unity_socket, addr = s.accept()
 
         while True:
-            text = pickle.loads(unity_socket.recv(1024))
-            interpret(text)
+            content = pickle.loads(unity_socket.recv(1024))
+            interpret(content)

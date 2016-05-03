@@ -16,7 +16,7 @@ using System.Collections.Generic;
 public class CarController : MonoBehaviour {
 
 	// TTL for all event messages
-	private static readonly int BASE_TTL = 5;
+	private static readonly int LIFETIME = 10;
 
 	// Size of a grid square
 	private static readonly float GRID_ELEMENT_SIZE = 100F;
@@ -56,14 +56,14 @@ public class CarController : MonoBehaviour {
 	// The car dot renderer
 	private SpriteRenderer rend;
 
-	// Variable indicating if the car should react to an external event
-	public bool react;
+	// Variable containing the next message to broadcast
+	public Queue<byte[]> messages;
 
 
 
 	// Start on Demand
 	public void Begin (String filename) {
-		react = false;
+		messages = new Queue<byte[]>();
 
 		//TODO: Review this port business
 		int port = 8000 + int.Parse (filename.Split ('.') [1]);
@@ -98,11 +98,7 @@ public class CarController : MonoBehaviour {
 		byte[] sizedData = new byte[receivedLength];
 		Buffer.BlockCopy (receiveBuffer, 0, sizedData, 0, receivedLength);
 
-		//int ttl = BitConverter.ToInt32 (sizedData,0);
-
-		//TODO: If received id is my id, discard, otherwise, set react to true
-		if(/*content*/)
-			react = true;
+		messages.Enqueue (sizedData);
 
 		//Continue receiving (events may be lost)
 		communicationSocket.BeginReceive (receiveBuffer, 0, receiveBuffer.Length, SocketFlags.None, new AsyncCallback(ReceiveCallback),null );
@@ -127,11 +123,7 @@ public class CarController : MonoBehaviour {
 	public void UpdatePosition () {
 
 		// React to external event
-		if (react) {
-			rend.color = new Color (0f, 0f, 1f);
-			react = false;
-			BroadcastNearby (/*possible args*/);
-		}
+		BroadcastNearby ();
 
 
 		text = reader.ReadLine();
@@ -146,20 +138,24 @@ public class CarController : MonoBehaviour {
 
 			if(int.Parse (tokens [2]) == 1) {
 				rend.color = new Color (1f, 0f, 0f);
-				detectionSocket.Send (/*content*/);
+				detectionSocket.Send (BitConverter.GetBytes(LIFETIME));
 			}
 			else
 				rend.color = new Color (0f, 1f, 0f);
 		}
 	}
 
-	private void BroadcastNearby(/*possible args*/){
+	private void BroadcastNearby(){
 		for (int i = 0; i < CarManager.NR_CARS; i++) {
 			CarController car = CarManager.cars [i];
 			bool sameGridX = Math.Floor (car.transform.position.x / GRID_ELEMENT_SIZE) == Math.Floor (gameObject.transform.position.x / GRID_ELEMENT_SIZE);
 			bool sameGridY = Math.Floor (car.transform.position.y / GRID_ELEMENT_SIZE) == Math.Floor (gameObject.transform.position.y / GRID_ELEMENT_SIZE);
-			if (sameGridX && sameGridY)
-				car.communicationSocket.Send (/*content*/);
+			if (sameGridX && sameGridY) {
+				byte[] message;
+				while ( (message = messages.Dequeue ()) != null ) {
+					car.communicationSocket.Send (message);
+				}
+			}
 		}
 	}
 
