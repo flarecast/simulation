@@ -123,7 +123,7 @@ public class CarController : MonoBehaviour {
 		UnityEngine.Debug.Log(strOutput);
 	}
 
-	//Called every 0.2 seconds
+	//Called every FRAME_INTERVAL seconds
 	public void UpdatePosition () {
 
 		// React to external event
