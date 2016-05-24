@@ -7,7 +7,6 @@ using System.Net.Sockets;
 using System.Diagnostics;
 using System.Text;
 using System.Globalization;
-using System.Collections;
 using System.Collections.Generic;
 
 
@@ -15,14 +14,18 @@ using System.Collections.Generic;
 
 public class CarController : MonoBehaviour {
 
+
 	// TTL for all event messages
 	private static readonly int LIFETIME = 10;
 
-	// Size of a grid square
-	private static readonly float GRID_ELEMENT_SIZE = 100F;
+	//Speed of interpolated movement
+	private static readonly int SPEED = 200;
 
 	// Time between frames
-	private static readonly float FRAME_INTERVAL = 0.2F;
+	private static readonly float FRAME_INTERVAL = 0.1F;
+
+	// Distance multiplier for the radius
+	public static readonly float RADIUS_SCALE = 5;
 
 	private static readonly String pythonAddress = "127.0.0.1";
 
@@ -59,10 +62,29 @@ public class CarController : MonoBehaviour {
 	// Variable containing the next message to broadcast
 	public Queue<byte[]> messages;
 
+	//Next file position of the current car
+	private Vector3 nextPosition;
 
+	//If the file should react to an event received from another entity
+	public bool react;
+
+
+ 
 
 	// Start on Demand
 	public void Begin (String filename) {
+
+		//Create radius around the dot
+		GameObject radius = Instantiate (Resources.Load("Radius")) as GameObject;
+
+
+		radius.transform.position = gameObject.transform.position;
+		radius.transform.parent = gameObject.transform;
+		radius.transform.localScale = new Vector3(RADIUS_SCALE, RADIUS_SCALE, 0);
+		radius.transform.position = new Vector3 (1, 1, 0);
+
+
+		react = false;
 		messages = new Queue<byte[]>();
 
 		//TODO: Review this port business
@@ -78,8 +100,6 @@ public class CarController : MonoBehaviour {
 		reader = f.OpenText();
 
 		text = "start";
-
-		transform.position = ConvertCoords (center.x, center.y);
 
 		// Use this to update in custom intervals, create UpdatePosition for that
 		InvokeRepeating("UpdatePosition", 0, FRAME_INTERVAL);
@@ -121,24 +141,21 @@ public class CarController : MonoBehaviour {
 
 	//Called every FRAME_INTERVAL seconds
 	public void UpdatePosition () {
-
-		// React to external event
-		BroadcastNearby ();
-
-
 		text = reader.ReadLine();
 		if (text != null && text != "NOP") {
 			string[] tokens = text.Split (' ');
 
-			double coordX = double.Parse (tokens [0], CultureInfo.InvariantCulture.NumberFormat);
-			double coordY = double.Parse (tokens [1], CultureInfo.InvariantCulture.NumberFormat);
+			double coordX = double.Parse (tokens [0], CultureInfo.InvariantCulture);
+			double coordY = double.Parse (tokens [1], CultureInfo.InvariantCulture);
 
-			transform.position = ConvertCoords (coordX, coordY);
+			nextPosition = ConvertCoords (coordX, coordY);
 
-
-			if(int.Parse (tokens [2]) == 1) {
+			if(int.Parse (tokens [2]) == 1 || react) {
 				rend.color = new Color (1f, 0f, 0f);
-				detectionSocket.Send (BitConverter.GetBytes(LIFETIME));
+				BroadcastNearby ();
+				if (react)
+					react = false;
+				//detectionSocket.Send (BitConverter.GetBytes(LIFETIME));
 			}
 			else
 				rend.color = new Color (0f, 1f, 0f);
@@ -146,15 +163,16 @@ public class CarController : MonoBehaviour {
 	}
 
 	private void BroadcastNearby(){
-		for (int i = 0; i < CarManager.NR_CARS; i++) {
+		for (int i = 0; i < CarManager.nr_cars; i++) {
 			CarController car = CarManager.cars [i];
-			bool sameGridX = Math.Floor (car.transform.position.x / GRID_ELEMENT_SIZE) == Math.Floor (gameObject.transform.position.x / GRID_ELEMENT_SIZE);
-			bool sameGridY = Math.Floor (car.transform.position.y / GRID_ELEMENT_SIZE) == Math.Floor (gameObject.transform.position.y / GRID_ELEMENT_SIZE);
-			if (sameGridX && sameGridY) {
-				byte[] message;
-				while ( (message = messages.Dequeue ()) != null ) {
+			float dist = Vector3.Distance(car.transform.position, transform.position);
+			if (car.GetInstanceID() != gameObject.GetInstanceID() && dist*20 < RADIUS_SCALE * transform.localScale.x) {
+				/*byte[] message;
+				while ((message = messages.Dequeue ()) != null) {
 					car.communicationSocket.Send (message);
-				}
+				}*/
+				//temporary react
+				car.react = true;
 			}
 		}
 	}
@@ -197,7 +215,8 @@ public class CarController : MonoBehaviour {
 
 	// Update is called once per frame
 	public void Update () {
-
+		float step = SPEED * Time.deltaTime;
+		transform.position = Vector3.MoveTowards(transform.position, nextPosition, step);
 	}
 
 }

@@ -5,8 +5,8 @@ using System.IO;
 public class CarManager : MonoBehaviour {
 
 	public static Object prefab = Resources.Load("Car");
-	public static readonly int NR_CARS = 3;
-	public static CarController[] cars = new CarController[NR_CARS];
+	public static CarController[] cars;
+	public static int nr_cars;
 
 	// Use this for initialization
 	void Start () {
@@ -16,7 +16,12 @@ public class CarManager : MonoBehaviour {
 		CarController.imWidth = width;
 		CarController.imHeight = height;
 
-		for (int i = 0; i < NR_CARS; i++) {
+		string[] files = Directory.GetFiles("positions/", "positions.*.txt", SearchOption.TopDirectoryOnly);
+
+		nr_cars = files.Length;
+		cars = new CarController[nr_cars];
+
+		for (int i = 0; i < nr_cars; i++) {
 			GameObject newCar = Instantiate (prefab) as GameObject;
 			CarController controller = newCar.GetComponent<CarController> ();
 			cars [i] = controller;
