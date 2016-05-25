@@ -43,14 +43,15 @@ public class CarController : MonoBehaviour {
 	// Positions file reader
 	private StreamReader reader;
 
+
 	// Map coordinate limits
-	private static readonly float minLat = 40.981F;
-	private static readonly float maxLat = 41.399F;
-	private static readonly float minLon = -8.795F;
-	private static readonly float maxLon = -8.358F;
+	private static readonly double minLat = 40.980779F;
+	private static readonly double maxLat = 41.399837F;
+	private static readonly double minLon = -8.795317F;
+	private static readonly double maxLon = -8.358211F;
 
 	// Center of the map
-	static readonly Vector3 center=   new Vector3(41F, -8.6F,0.0F);
+	static readonly Vector3 center=   new Vector3(41.190308F, -8.576764F,0.0F);
 
 	// Image Proportions
 	public static float imWidth;
@@ -184,6 +185,8 @@ public class CarController : MonoBehaviour {
 		double x = (proportionX * imWidth) - (imWidth / 2);
 		double y = (proportionY * imHeight) - (imHeight / 2);
 
+		UnityEngine.Debug.Log (new Vector3 ((float)x, (float)y, 0.0F));
+
 		return ( new Vector3((float) x , (float) y , 0.0F));
 	}
 
@@ -216,7 +219,11 @@ public class CarController : MonoBehaviour {
 	// Update is called once per frame
 	public void Update () {
 		float step = SPEED * Time.deltaTime;
+		//Interpolated (smooth)
 		transform.position = Vector3.MoveTowards(transform.position, nextPosition, step);
+
+		//Not Interpolated 
+		//transform.position = nextPosition;
 	}
 
 }
