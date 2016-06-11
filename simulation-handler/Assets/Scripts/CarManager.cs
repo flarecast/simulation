@@ -25,7 +25,7 @@ public class CarManager : MonoBehaviour {
 			GameObject newCar = Instantiate (prefab) as GameObject;
 			CarController controller = newCar.GetComponent<CarController> ();
 			cars [i] = controller;
-			controller.Begin("positions/positions." + i + ".txt");
+			controller.Begin("positions/positions." + i + ".txt", i);
 		}
 	}
 	

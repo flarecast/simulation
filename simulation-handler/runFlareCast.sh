@@ -1,1 +1,1 @@
-python simple.py
+FLARECAST_PORT=$1 python simple.py

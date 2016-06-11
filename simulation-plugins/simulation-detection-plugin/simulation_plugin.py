@@ -12,7 +12,7 @@ class SimulationDetector(Detector):
 
     def run(self):
         s = socket.socket()
-        port = 11111 #get port from file
+        port = int(os.environ.get('FLARECAST_PORT')) #get port from env
         host = '127.0.0.1'
         s.bind((host, port))
         s.listen(1)

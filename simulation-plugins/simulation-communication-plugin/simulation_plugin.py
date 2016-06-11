@@ -6,7 +6,7 @@ class SimulationPlugin(ConnectionPlugin):
         super().__init__()
 
         s = socket.socket()
-        port = 11112 #get port from file
+        port = int(os.environ.get('FLARECAST_PORT'))+1 #get port from env
         host = '127.0.0.1'
         s.bind((host, port))
         s.listen(1)

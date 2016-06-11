@@ -18,6 +18,9 @@ public class CarController : MonoBehaviour {
 	// TTL for all event messages
 	private static readonly int LIFETIME = 10;
 
+	// The port from which the program counts up
+	private static readonly int BASE_PORT = 8000;
+
 	//Speed of interpolated movement
 	private static readonly int SPEED = 200;
 
@@ -69,16 +72,11 @@ public class CarController : MonoBehaviour {
 	//If the file should react to an event received from another entity
 	public bool react;
 
-
- 
-
 	// Start on Demand
-	public void Begin (String filename) {
+	public void Begin (String filename, int carNr) {
 
 		//Create radius around the dot
 		GameObject radius = Instantiate (Resources.Load("Radius")) as GameObject;
-
-
 		radius.transform.position = gameObject.transform.position;
 		radius.transform.parent = gameObject.transform;
 		radius.transform.localScale = new Vector3(RADIUS_SCALE, RADIUS_SCALE, 0);
@@ -87,13 +85,6 @@ public class CarController : MonoBehaviour {
 
 		react = false;
 		messages = new Queue<byte[]>();
-
-		//TODO: Review this port business
-		int port = 8000 + int.Parse (filename.Split ('.') [1]);
-		File.WriteAllText (Application.dataPath+"/port.txt", port.ToString());
-
-		//detectionSocket = GetSocket(detectionPort)
-		//communicationSocket = GetSocket (communicationPort);
 
 		rend = GetComponent<SpriteRenderer>();
 
@@ -105,39 +96,47 @@ public class CarController : MonoBehaviour {
 		// Use this to update in custom intervals, create UpdatePosition for that
 		InvokeRepeating("UpdatePosition", 0, FRAME_INTERVAL);
 
-		//SpawnPython ();
+		SpawnPython (BASE_PORT+carNr);
+
+		detectionSocket = GetSocket (BASE_PORT+carNr);
+		communicationSocket = GetSocket (BASE_PORT+carNr+1);
 
 		// Receive external events
-		//communicationSocket.BeginReceive (receiveBuffer, 0, receiveBuffer.Length, SocketFlags.None, new AsyncCallback(ReceiveCallback),null );
+		communicationSocket.BeginReceive (receiveBuffer, 0, receiveBuffer.Length, SocketFlags.None, new AsyncCallback(ReceiveCallback),null );
 
 	}
 
 	// Handler for external event receptions
 	private void ReceiveCallback(IAsyncResult result){
-		int receivedLength = communicationSocket.EndReceive (result);
+		Socket rs = (Socket) result.AsyncState;
 
-		byte[] sizedData = new byte[receivedLength];
-		Buffer.BlockCopy (receiveBuffer, 0, sizedData, 0, receivedLength);
+		//Code to copy data in correct size. See issue #2 in Github Repo
+		/*byte[] sizedData = new byte[receivedLength];
+		Buffer.BlockCopy (receiveBuffer, 0, sizedData, 0, receivedLength);*/
 
-		messages.Enqueue (sizedData);
+		messages.Enqueue (receiveBuffer);
+
+		int receivedLength = rs.EndReceive (result);
+		result.AsyncWaitHandle.Close();
+		receiveBuffer = new byte[1024];
 
 		//Continue receiving (events may be lost)
-		communicationSocket.BeginReceive (receiveBuffer, 0, receiveBuffer.Length, SocketFlags.None, new AsyncCallback(ReceiveCallback),null );
+		rs.BeginReceive (receiveBuffer, 0, receiveBuffer.Length, SocketFlags.None, new AsyncCallback(ReceiveCallback),null );
 	}
 		
 
 	// Spawns a python instance
-	private void SpawnPython(){
+	private void SpawnPython(int port){
 		ProcessStartInfo psi = new ProcessStartInfo(); 
 		psi.FileName = "/bin/sh";
 		psi.UseShellExecute = false; 
 		psi.RedirectStandardOutput = true;
-		psi.Arguments = "runFlareCast.sh";
+		psi.Arguments = "runFlareCast.sh "+port;
 
 		Process p = Process.Start(psi); 
-		string strOutput = p.StandardOutput.ReadToEnd(); 
-		p.WaitForExit(); 
-		UnityEngine.Debug.Log(strOutput);
+
+		//Give some time for the process to start, otherwise, the "Connect" won't be successful
+		System.Threading.Thread.Sleep(500);
 	}
 
 	//Called every FRAME_INTERVAL seconds
@@ -156,7 +155,7 @@ public class CarController : MonoBehaviour {
 				BroadcastNearby ();
 				if (react)
 					react = false;
-				//detectionSocket.Send (BitConverter.GetBytes(LIFETIME));
+				detectionSocket.Send (BitConverter.GetBytes(LIFETIME));
 			}
 			else
 				rend.color = new Color (0f, 1f, 0f);
@@ -168,12 +167,19 @@ public class CarController : MonoBehaviour {
 			CarController car = CarManager.cars [i];
 			float dist = Vector3.Distance(car.transform.position, transform.position);
 			if (car.GetInstanceID() != gameObject.GetInstanceID() && dist*20 < RADIUS_SCALE * transform.localScale.x) {
-				/*byte[] message;
-				while ((message = messages.Dequeue ()) != null) {
+				byte[] message;
+				string result;
+				while (messages.Count > 0) {
+					message = messages.Dequeue ();
+
+					// 2 lines for debug
+					result = System.Text.Encoding.UTF8.GetString(message);
+					UnityEngine.Debug.Log (result);
+
 					car.communicationSocket.Send (message);
-				}*/
-				//temporary react
-				car.react = true;
+				}
+				//debug react
+				//car.react = true;
 			}
 		}
 	}
@@ -194,6 +200,7 @@ public class CarController : MonoBehaviour {
 		IPEndPoint ipe = new IPEndPoint (IPAddress.Parse(pythonAddress), port);
 		Socket tempSocket = 
 			new Socket (ipe.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+
 
 		tempSocket.Connect (ipe);
 
