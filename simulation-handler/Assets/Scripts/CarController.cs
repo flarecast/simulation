@@ -19,7 +19,7 @@ public class CarController : MonoBehaviour {
 	private static readonly int LIFETIME = 10;
 
 	// The port from which the program counts up
-	private static readonly int BASE_PORT = 8000;
+	private static readonly int BASE_PORT = 9100;
 
 	//Speed of interpolated movement
 	private static readonly int SPEED = 200;
@@ -115,6 +115,7 @@ public class CarController : MonoBehaviour {
 		Buffer.BlockCopy (receiveBuffer, 0, sizedData, 0, receivedLength);*/
 
 		messages.Enqueue (receiveBuffer);
+		react = true;
 
 		int receivedLength = rs.EndReceive (result);
 		result.AsyncWaitHandle.Close();
@@ -139,8 +140,20 @@ public class CarController : MonoBehaviour {
 		System.Threading.Thread.Sleep(500);
 	}
 
+	public void ApplyReaction(){
+		rend.color = new Color (1f, 0f, 0f);
+		if (react)
+			react = false;
+	}
+
 	//Called every FRAME_INTERVAL seconds
 	public void UpdatePosition () {
+
+		BroadcastNearby ();
+
+		if (react)
+			ApplyReaction();
+
 		text = reader.ReadLine();
 		if (text != null && text != "NOP") {
 			string[] tokens = text.Split (' ');
@@ -150,11 +163,8 @@ public class CarController : MonoBehaviour {
 
 			nextPosition = ConvertCoords (coordX, coordY);
 
-			if(int.Parse (tokens [2]) == 1 || react) {
-				rend.color = new Color (1f, 0f, 0f);
-				BroadcastNearby ();
-				if (react)
-					react = false;
+			if (int.Parse (tokens [2]) == 1) {
+				ApplyReaction ();
 				detectionSocket.Send (BitConverter.GetBytes(LIFETIME));
 			}
 			else
