@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.IO;
+using System.Threading;
 
 public class CarManager : MonoBehaviour {
 
@@ -20,6 +21,7 @@ public class CarManager : MonoBehaviour {
 
 		nr_cars = files.Length;
 		cars = new CarController[nr_cars];
+
 
 		for (int i = 0; i < nr_cars; i++) {
 			GameObject newCar = Instantiate (prefab) as GameObject;

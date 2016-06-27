@@ -16,19 +16,22 @@ public class CarController : MonoBehaviour {
 
 
 	// TTL for all event messages
-	private static readonly int LIFETIME = 10;
+	private static readonly int LIFETIME = 10000;
+
+	// Has finished setup and is ready to read from file and socket
+	private bool working = false;
 
 	// The port from which the program counts up
-	private static readonly int BASE_PORT = 9100;
+	private static readonly int BASE_PORT = 8000;
 
 	//Speed of interpolated movement
-	private static readonly int SPEED = 200;
+	private static readonly int SPEED = 100;
 
 	// Time between frames
-	private static readonly float FRAME_INTERVAL = 0.1F;
+	private static readonly float FRAME_INTERVAL = 0.5F;
 
 	// Distance multiplier for the radius
-	public static readonly float RADIUS_SCALE = 5;
+	public static readonly float RADIUS_SCALE = 10;
 
 	private static readonly String pythonAddress = "127.0.0.1";
 
@@ -72,8 +75,12 @@ public class CarController : MonoBehaviour {
 	//If the file should react to an event received from another entity
 	public bool react;
 
+	public int carNumber;
+
 	// Start on Demand
 	public void Begin (String filename, int carNr) {
+
+		carNumber = carNr;
 
 		//Create radius around the dot
 		GameObject radius = Instantiate (Resources.Load("Radius")) as GameObject;
@@ -96,13 +103,20 @@ public class CarController : MonoBehaviour {
 		// Use this to update in custom intervals, create UpdatePosition for that
 		InvokeRepeating("UpdatePosition", 0, FRAME_INTERVAL);
 
-		SpawnPython (BASE_PORT+carNr);
+		int port = BASE_PORT + carNr * 2;
+		SpawnPython (port);
 
-		detectionSocket = GetSocket (BASE_PORT+carNr);
-		communicationSocket = GetSocket (BASE_PORT+carNr+1);
+		detectionSocket = GetSocket (port);
+		communicationSocket = GetSocket (port+1);
+		if (detectionSocket == null)
+			UnityEngine.Debug.Log ("DETECTION OFF");
+		if (communicationSocket == null)
+			UnityEngine.Debug.Log ("COMM OFF");
 
+		
 		// Receive external events
 		communicationSocket.BeginReceive (receiveBuffer, 0, receiveBuffer.Length, SocketFlags.None, new AsyncCallback(ReceiveCallback),null );
+		working = true;
 
 	}
 
@@ -115,6 +129,7 @@ public class CarController : MonoBehaviour {
 		Buffer.BlockCopy (receiveBuffer, 0, sizedData, 0, receivedLength);*/
 
 		messages.Enqueue (receiveBuffer);
+		UnityEngine.Debug.Log (carNumber + " RECEIVED ::::::::::::::::::::::::::::::::::::::::");
 		react = true;
 
 		int receivedLength = rs.EndReceive (result);
@@ -129,21 +144,50 @@ public class CarController : MonoBehaviour {
 	// Spawns a python instance
 	private void SpawnPython(int port){
 		ProcessStartInfo psi = new ProcessStartInfo(); 
-		psi.FileName = "/bin/sh";
-		psi.UseShellExecute = false; 
+		//psi.FileName = "runFlareCast.sh";
+		psi.FileName = "/Users/joaorodrigues/.pyenv/versions/3.4.3/bin/python";
+		psi.UseShellExecute = false;
 		psi.RedirectStandardOutput = true;
-		psi.Arguments = "runFlareCast.sh "+port;
+		psi.RedirectStandardError = true;
+		psi.EnvironmentVariables["FLARECAST_PORT"] = port.ToString();
+		//psi.Arguments = port.ToString();
+		psi.Arguments = "flarecast-core/bin/app.py";
+		UnityEngine.Debug.Log ("Started Python in port " + port + " and +1");
 
-		Process p = Process.Start(psi); 
+		Process p = new Process ();
+		p.StartInfo = psi;
+		p.OutputDataReceived += new DataReceivedEventHandler (PythonOutputHandler);
+		p.ErrorDataReceived += new DataReceivedEventHandler (PythonErrorHandler);
+		p.Start ();
+		p.BeginOutputReadLine ();
+		p.BeginErrorReadLine ();
 
 		//Give some time for the process to start, otherwise, the "Connect" won't be successful
-		System.Threading.Thread.Sleep(500);
+		System.Threading.Thread.Sleep(2000);
+	}
+
+	private static void PythonOutputHandler(object sendingProcess, 
+		DataReceivedEventArgs outLine)
+	{
+		// Collect the sort command output.
+		if (!String.IsNullOrEmpty(outLine.Data))
+		{
+			UnityEngine.Debug.Log (outLine.Data);
+		}
+	}
+
+	private static void PythonErrorHandler(object sendingProcess, 
+		DataReceivedEventArgs errLine)
+	{
+		// Collect the sort command output.
+		if (!String.IsNullOrEmpty(errLine.Data))
+		{
+			UnityEngine.Debug.Log (errLine.Data);
+		}
 	}
 
 	public void ApplyReaction(){
 		rend.color = new Color (1f, 0f, 0f);
-		if (react)
-			react = false;
 	}
 
 	//Called every FRAME_INTERVAL seconds
@@ -154,37 +198,39 @@ public class CarController : MonoBehaviour {
 		if (react)
 			ApplyReaction();
 
-		text = reader.ReadLine();
-		if (text != null && text != "NOP") {
-			string[] tokens = text.Split (' ');
+		if (working) {
+			text = reader.ReadLine ();
+			if (text != null && text != "NOP") {
+				string[] tokens = text.Split (' ');
 
-			double coordX = double.Parse (tokens [0], CultureInfo.InvariantCulture);
-			double coordY = double.Parse (tokens [1], CultureInfo.InvariantCulture);
+				double coordX = double.Parse (tokens [0], CultureInfo.InvariantCulture);
+				double coordY = double.Parse (tokens [1], CultureInfo.InvariantCulture);
 
-			nextPosition = ConvertCoords (coordX, coordY);
+				nextPosition = ConvertCoords (coordX, coordY);
 
-			if (int.Parse (tokens [2]) == 1) {
-				ApplyReaction ();
-				detectionSocket.Send (BitConverter.GetBytes(LIFETIME));
+				if (int.Parse (tokens [2]) == 1)
+					detectionSocket.Send (BitConverter.GetBytes (LIFETIME));
+				else if(!react)
+					rend.color = new Color (0f, 1f, 0f);
 			}
-			else
-				rend.color = new Color (0f, 1f, 0f);
 		}
+
+		if (react)
+			react = false;
 	}
 
 	private void BroadcastNearby(){
 		for (int i = 0; i < CarManager.nr_cars; i++) {
 			CarController car = CarManager.cars [i];
 			float dist = Vector3.Distance(car.transform.position, transform.position);
-			if (car.GetInstanceID() != gameObject.GetInstanceID() && dist*20 < RADIUS_SCALE * transform.localScale.x) {
-				byte[] message;
+			if (i!=carNumber && dist*20 < RADIUS_SCALE * transform.localScale.x) {
 				string result;
-				while (messages.Count > 0) {
-					message = messages.Dequeue ();
+				foreach (byte[] message in messages){
+					UnityEngine.Debug.Log ("Send from " + carNumber + " to " + i);
 
 					// 2 lines for debug
-					result = System.Text.Encoding.UTF8.GetString(message);
-					UnityEngine.Debug.Log (result);
+					//result = System.Text.Encoding.UTF8.GetString(message);
+					//UnityEngine.Debug.Log (result);
 
 					car.communicationSocket.Send (message);
 				}
@@ -192,6 +238,8 @@ public class CarController : MonoBehaviour {
 				//car.react = true;
 			}
 		}
+
+		messages.Clear ();
 	}
 
 	private Vector3 ConvertCoords (double lat, double lon){
@@ -201,7 +249,8 @@ public class CarController : MonoBehaviour {
 		double x = (proportionX * imWidth) - (imWidth / 2);
 		double y = (proportionY * imHeight) - (imHeight / 2);
 
-		UnityEngine.Debug.Log (new Vector3 ((float)x, (float)y, 0.0F));
+		// Print Coordinates for Debug
+		//UnityEngine.Debug.Log (new Vector3 ((float)x, (float)y, 0.0F));
 
 		return ( new Vector3((float) x , (float) y , 0.0F));
 	}
