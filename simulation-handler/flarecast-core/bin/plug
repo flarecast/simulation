@@ -1,0 +1,141 @@
+#!/bin/bash
+
+# This script allows management of blueflare plugins
+# It should be ran in the core root directory.
+# Currently, it supports two modes: plugging and unplugging.
+#
+# Plugging mode:
+# Plugging copies the necessary files to the correct directory.
+# It reads the files inside <plugin_name>/lib, <plugin_name>/bin
+# and <plugin_name>/config, and copies them to the target directories.
+# The target directories are:
+#   - lib/plugins/<plugin_name>
+#   - bin/<plugin_type>/<plugin_name>
+#   - config/<plugin_type>/<plugin_name>
+# This helps namespacing the plugins and avoiding name conflicts
+#
+# First argument is <plugin_type> (reaction, detection, communication or comm)
+# Second argument is the path to the plugin root
+# Third argument is optional and is an alias to <plugin_name>.
+#   If not provided, the plugin directory name will be used
+#
+#
+#
+# Unplugging mode:
+# Searches the plugin directories for <plugin_name> and removes it.
+# The target directories are always prefixed by <plugin_type>.
+#
+# First argument is the unplug trigger: -r
+# Second argument is <plugin_type>
+# Third argument is <plugin_name>
+#
+#
+#
+# Usage examples:
+# Plugging a stdin reactor
+# $ bin/plug reactor ../path/to/stdin_reactor
+#
+# Plugging a communication bluetooth plugin as bluetooth
+# Note that using 'comm' or 'communication' as <plugin_type> is the same
+# $ bin/plug comm ~/plugins/bluetooth-connection-plugin bluetooth
+#
+# Unplugging the bluetooth plugin
+# $ bin/plug -r comm bluetooth
+
+LIB="lib"
+PLUGINS="$LIB/plugins"
+CONFIG="config"
+BIN="bin"
+
+function remove_if_exists() {
+  if [ -d $1 ]; then
+    echo "Unplugging $1..."
+    rm $1/*
+  fi
+}
+
+function remove_plug() {
+  if [ -z $2 ]; then
+    echo "[ERR]: Insuficient arguments provided"
+    exit 1
+  fi
+
+  plug_type=$1
+  plug_name=$2
+
+  case $plug_type in
+    'comm')
+      plug_type='communication'
+      ;;
+    'reaction'|'detection'|'communication')
+      ;;
+    *)
+      echo "[ERR]: Unknown value provided: $plug_type"
+      exit 1
+      ;;
+  esac
+
+  remove_if_exists "$PLUGINS/$plug_type/$plug_name"
+  remove_if_exists "$BIN/$plug_type/$plug_name"
+  remove_if_exists "$CONFIG/$plug_type/$plug_name"
+}
+
+function create_and_move() {
+  origin=$(readlink -f $1)
+  destination=$2
+
+  if [ ! -d $origin ]; then
+    return ;
+  fi
+
+  echo "Plugging $destination..."
+
+  if [ ! -d $destination ]; then
+    mkdir -p $destination
+  fi
+
+  ln -s "$origin/"* "$destination"
+}
+
+if [ ! -d $LIB ]; then
+  echo "[ERR]: Not in project root, exiting..."
+  exit 1
+fi
+
+if [ "$#" -lt 2 ]; then
+  echo "[ERR]: Insuficient arguments provided"
+  exit 1
+fi
+
+plug_type=$1
+
+case $plug_type in
+  '-r')
+    remove_plug $2 $3
+    exit 0
+    ;;
+  'comm')
+    plug_type='communication'
+    TARGET_DIR="$PLUGINS/communication"
+    ;;
+  'reaction'|'detection'|'communication')
+    TARGET_DIR="$PLUGINS/$plug_type"
+    ;;
+  *)
+    echo "[ERR]: Unknown value provided: $plug_type"
+    exit 1
+    ;;
+esac
+
+plug_path=$2
+
+if [ -z "$3" ]; then
+  DIR_NAME=${plug_path##*/}
+else
+  DIR_NAME=$3
+fi
+
+create_and_move "$plug_path/$LIB" "$TARGET_DIR/$DIR_NAME"
+create_and_move "$plug_path/$BIN" "$BIN/$plug_type/$DIR_NAME"
+create_and_move "$plug_path/$CONFIG" "$CONFIG/$plug_type/$DIR_NAME"
+
