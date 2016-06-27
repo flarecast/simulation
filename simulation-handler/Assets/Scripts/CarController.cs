@@ -22,7 +22,7 @@ public class CarController : MonoBehaviour {
 	private bool working = false;
 
 	// The port from which the program counts up
-	private static readonly int BASE_PORT = 8000;
+	private static readonly int BASE_PORT = 9910;
 
 	//Speed of interpolated movement
 	private static readonly int SPEED = 100;
@@ -42,7 +42,11 @@ public class CarController : MonoBehaviour {
 	// Events are forwarded through this socket
 	private Socket communicationSocket;
 
+	private Socket reactionSocket;
+
 	private byte[] receiveBuffer = new byte[1024];
+
+	private byte[] reactionBuffer = new byte[1024];
 
 	// Variable for a positions file line
 	private string text;
@@ -103,9 +107,10 @@ public class CarController : MonoBehaviour {
 		// Use this to update in custom intervals, create UpdatePosition for that
 		InvokeRepeating("UpdatePosition", 0, FRAME_INTERVAL);
 
-		int port = BASE_PORT + carNr * 2;
+		int port = BASE_PORT + carNr * 3;
 		SpawnPython (port);
 
+		reactionSocket = GetSocket (port + 2);
 		detectionSocket = GetSocket (port);
 		communicationSocket = GetSocket (port+1);
 		if (detectionSocket == null)
@@ -116,6 +121,10 @@ public class CarController : MonoBehaviour {
 		
 		// Receive external events
 		communicationSocket.BeginReceive (receiveBuffer, 0, receiveBuffer.Length, SocketFlags.None, new AsyncCallback(ReceiveCallback),null );
+		UnityEngine.Debug.Log ("BEFORE BEGIN");
+		reactionSocket.BeginReceive (reactionBuffer, 0, reactionBuffer.Length, SocketFlags.None, new AsyncCallback(ReactionCallback),null );
+		UnityEngine.Debug.Log("AFTER BEGIN");
+
 		working = true;
 
 	}
@@ -130,7 +139,6 @@ public class CarController : MonoBehaviour {
 
 		messages.Enqueue (receiveBuffer);
 		UnityEngine.Debug.Log (carNumber + " RECEIVED ::::::::::::::::::::::::::::::::::::::::");
-		react = true;
 
 		int receivedLength = rs.EndReceive (result);
 		result.AsyncWaitHandle.Close();
@@ -138,6 +146,20 @@ public class CarController : MonoBehaviour {
 
 		//Continue receiving (events may be lost)
 		rs.BeginReceive (receiveBuffer, 0, receiveBuffer.Length, SocketFlags.None, new AsyncCallback(ReceiveCallback),null );
+	}
+
+	private void ReactionCallback(IAsyncResult result){
+		Socket rs = (Socket) result.AsyncState;
+
+		UnityEngine.Debug.Log (carNumber + " REACTED ::::::::::::::::::::::::::::::::::::::::");
+		react = true;
+
+		int receivedLength = rs.EndReceive (result);
+		result.AsyncWaitHandle.Close();
+		reactionBuffer = new byte[1024];
+
+		//Continue receiving (events may be lost)
+		rs.BeginReceive (reactionBuffer, 0, reactionBuffer.Length, SocketFlags.None, new AsyncCallback(ReactionCallback),null );
 	}
 		
 
@@ -163,7 +185,7 @@ public class CarController : MonoBehaviour {
 		p.BeginErrorReadLine ();
 
 		//Give some time for the process to start, otherwise, the "Connect" won't be successful
-		System.Threading.Thread.Sleep(2000);
+		System.Threading.Thread.Sleep(1000);
 	}
 
 	private static void PythonOutputHandler(object sendingProcess, 
@@ -193,7 +215,9 @@ public class CarController : MonoBehaviour {
 	//Called every FRAME_INTERVAL seconds
 	public void UpdatePosition () {
 
-		BroadcastNearby ();
+		UnityEngine.Debug.Log("UDPATE");
+
+		//BroadcastNearby ();
 
 		if (react)
 			ApplyReaction();
@@ -209,7 +233,8 @@ public class CarController : MonoBehaviour {
 				nextPosition = ConvertCoords (coordX, coordY);
 
 				if (int.Parse (tokens [2]) == 1)
-					detectionSocket.Send (BitConverter.GetBytes (LIFETIME));
+					//detectionSocket.Send (BitConverter.GetBytes (LIFETIME));
+					UnityEngine.Debug.Log("BEFORE SEND");
 				else if(!react)
 					rend.color = new Color (0f, 1f, 0f);
 			}
