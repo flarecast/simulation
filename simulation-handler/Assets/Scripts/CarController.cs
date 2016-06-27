@@ -152,7 +152,7 @@ public class CarController : MonoBehaviour {
 		psi.EnvironmentVariables["FLARECAST_PORT"] = port.ToString();
 		//psi.Arguments = port.ToString();
 		psi.Arguments = "flarecast-core/bin/app.py";
-		UnityEngine.Debug.Log ("Started Python in port " + port + " and +1");
+		UnityEngine.Debug.Log ("Started Python in port " + port + " and "+(port+1));
 
 		Process p = new Process ();
 		p.StartInfo = psi;
