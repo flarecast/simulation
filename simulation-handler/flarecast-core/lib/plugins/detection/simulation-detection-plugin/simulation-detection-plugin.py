@@ -15,12 +15,10 @@ class SimulationDetector(Detector):
         s = socket.socket()
         port = int(os.environ.get('FLARECAST_PORT')) #get port from env
         host = '127.0.0.1'
-        s.bind((host, port))
-        s.listen(1)
-        unity_socket, addr = s.accept()
+        s.connect((host, port))
 
         while True:
             #lifetime = pickle.loads(unity_socket.recv(1024))
-            lifetime = struct.unpack('i', unity_socket.recv(4))[0]
+            lifetime = struct.unpack('i', s.recv(4))[0]
             print("LIFETIME: ", lifetime)
             self.interpret(lifetime)

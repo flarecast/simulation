@@ -32,11 +32,11 @@ public class CarController : MonoBehaviour {
 	private static readonly String pythonAddress = "127.0.0.1";
 
 	// Events detected in the file are sent to the python detector through this socket
-	private Socket detectionSocket;
+	public Socket detectionSocket;
 
 	// Events from other threads are received through this socket.
 	// Events are forwarded through this socket
-	private Socket communicationSocket;
+	public Socket communicationSocket;
 
 	private byte[] receiveBuffer = new byte[1024];
 
@@ -106,18 +106,42 @@ public class CarController : MonoBehaviour {
 	// Spawns Flarecast, connects sockets for event transmission and starts listening
 	public void SetupSockets(){
 		int port = BASE_PORT + carNumber * 2;
+
+		Thread t1 = new Thread (delegate() {
+			detectionSocket = GetSocket (port);
+		});
+
+		t1.Start ();
+
+		Thread t2 = new Thread (delegate() {
+			communicationSocket = GetSocket (port + 1);
+		});
+
+		t2.Start ();
+
 		SpawnPython (port);
 
-		detectionSocket = GetSocket (port);
-		communicationSocket = GetSocket (port+1);
+		t2.Join ();
+		t1.Join ();
 
-		UnityEngine.Debug.Log ("SOCKETS CREATED SUCCESSFULLY FOR CAR "+carNumber);
-
-		// Receive external events
-		communicationSocket.BeginReceive (receiveBuffer, 0, receiveBuffer.Length, SocketFlags.None, new AsyncCallback(ReceiveCallback),null );
+		// DEBUG: Check if sockets are connected
+		//UnityEngine.Debug.Log ("DETECTION  " + detectionSocket.Connected);
+		//UnityEngine.Debug.Log ("COMM  " + communicationSocket.Connected);
 
 	}
 
+	// Connects socket to the python instance
+	private Socket GetSocket(int port){
+		IPEndPoint ipe = new IPEndPoint (IPAddress.Parse(pythonAddress), port);
+		Socket tempSocket = 
+			new Socket (ipe.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+
+		tempSocket.Bind(ipe);
+		tempSocket.Listen(10);
+
+		return tempSocket.Accept();
+	}
+		
 	// Spawns a python instance
 	private void SpawnPython(int port){
 		ProcessStartInfo psi = new ProcessStartInfo(); 
@@ -139,39 +163,27 @@ public class CarController : MonoBehaviour {
 
 		//Give some time for the process to start, otherwise, the "Connect" won't be successfu
 		//The specified time function takes into account the number of cars in the scene and the wait time for 15 cars (2500ms)
-		System.Threading.Thread.Sleep((CarManager.nr_cars*2500)/15);
+		//System.Threading.Thread.Sleep((CarManager.nr_cars*2500)/15);
 	}
 
-	// Connects socket to the python instance
-	private Socket GetSocket(int port){
-		IPEndPoint ipe = new IPEndPoint (IPAddress.Parse(pythonAddress), port);
-		Socket tempSocket = 
-			new Socket (ipe.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
 
-		tempSocket.Connect (ipe);
+	// Start receiving messages in communication socket. Will be called recursively and asynchronously
+	public void StartReceiving(){
+		byte[] buffer = new byte[1024];
+		communicationSocket.BeginReceive(buffer, 0, 1024, SocketFlags.None, (state) =>
+			{
+				int bytesReceived = communicationSocket.EndReceive(state);
 
-		if (tempSocket.Connected)
-			return tempSocket;
-		else
-			return null;
+				if(bytesReceived > 0){
+					messages.Enqueue (receiveBuffer);
+					UnityEngine.Debug.Log (carNumber + " RECEIVED ::::::::::::::::::::::::::::::::::::::::");
+					react = true;
+				}
+
+				StartReceiving();
+			} ,null);
 	}
 
-	// Handler for external event receptions
-	private void ReceiveCallback(IAsyncResult result){
-		Socket rs = (Socket) result.AsyncState;
-
-		messages.Enqueue (receiveBuffer);
-		UnityEngine.Debug.Log (carNumber + " RECEIVED ::::::::::::::::::::::::::::::::::::::::");
-		react = true;
-
-		int receivedLength = rs.EndReceive (result);
-		result.AsyncWaitHandle.Close();
-		receiveBuffer = new byte[1024];
-
-		//Continue receiving (events may be lost)
-		rs.BeginReceive (receiveBuffer, 0, receiveBuffer.Length, SocketFlags.None, new AsyncCallback(ReceiveCallback),null );
-	}
-		
 	// Handles Python output messages
 	private static void PythonOutputHandler(object sendingProcess, 
 		DataReceivedEventArgs outLine)
@@ -237,7 +249,7 @@ public class CarController : MonoBehaviour {
 				string result;
 				foreach (byte[] message in messages){
 					// For message transmission debug
-					// UnityEngine.Debug.Log ("Send from " + carNumber + " to " + i);
+					//UnityEngine.Debug.Log ("Send from " + carNumber + " to " + i);
 					car.communicationSocket.Send (message);
 				}
 			}

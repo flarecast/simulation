@@ -51,6 +51,10 @@ public class CarManager : MonoBehaviour {
 			t.Join ();
 		}
 
+		foreach (CarController c in cars) {
+			c.StartReceiving ();
+		}
+
 		// Setup was finished for all cars, ready to get working
 		CarController.working = true;
 	}
