@@ -8,21 +8,17 @@ using System.Diagnostics;
 using System.Text;
 using System.Globalization;
 using System.Collections.Generic;
-
-
-
+using System.Threading;
 
 public class CarController : MonoBehaviour {
-
-
 	// TTL for all event messages
 	private static readonly int LIFETIME = 10000;
 
 	// Has finished setup and is ready to read from file and socket
-	private bool working = false;
+	public static bool working = false;
 
 	// The port from which the program counts up
-	private static readonly int BASE_PORT = 8000;
+	private static readonly int BASE_PORT = 20000;
 
 	//Speed of interpolated movement
 	private static readonly int SPEED = 100;
@@ -46,6 +42,7 @@ public class CarController : MonoBehaviour {
 
 	// Variable for a positions file line
 	private string text;
+
 	// Positions file reader
 	private StreamReader reader;
 
@@ -75,6 +72,7 @@ public class CarController : MonoBehaviour {
 	//If the file should react to an event received from another entity
 	public bool react;
 
+	//The number of this car
 	public int carNumber;
 
 	// Start on Demand
@@ -103,30 +101,64 @@ public class CarController : MonoBehaviour {
 		// Use this to update in custom intervals, create UpdatePosition for that
 		InvokeRepeating("UpdatePosition", 0, FRAME_INTERVAL);
 
-		int port = BASE_PORT + carNr * 2;
+	}
+
+	// Spawns Flarecast, connects sockets for event transmission and starts listening
+	public void SetupSockets(){
+		int port = BASE_PORT + carNumber * 2;
 		SpawnPython (port);
 
 		detectionSocket = GetSocket (port);
 		communicationSocket = GetSocket (port+1);
-		if (detectionSocket == null)
-			UnityEngine.Debug.Log ("DETECTION OFF");
-		if (communicationSocket == null)
-			UnityEngine.Debug.Log ("COMM OFF");
 
-		
+		UnityEngine.Debug.Log ("SOCKETS CREATED SUCCESSFULLY FOR CAR "+carNumber);
+
 		// Receive external events
 		communicationSocket.BeginReceive (receiveBuffer, 0, receiveBuffer.Length, SocketFlags.None, new AsyncCallback(ReceiveCallback),null );
-		working = true;
 
+	}
+
+	// Spawns a python instance
+	private void SpawnPython(int port){
+		ProcessStartInfo psi = new ProcessStartInfo(); 
+		psi.FileName = "/Users/joaorodrigues/.pyenv/versions/3.4.3/bin/python";
+		psi.UseShellExecute = false;
+		psi.RedirectStandardOutput = true;
+		psi.RedirectStandardError = true;
+		psi.EnvironmentVariables["FLARECAST_PORT"] = port.ToString();
+		psi.Arguments = "flarecast-core/bin/app.py";
+		UnityEngine.Debug.Log ("Started Python in port " + port + " and "+(port+1));
+
+		Process p = new Process ();
+		p.StartInfo = psi;
+		p.OutputDataReceived += new DataReceivedEventHandler (PythonOutputHandler);
+		p.ErrorDataReceived += new DataReceivedEventHandler (PythonErrorHandler);
+		p.Start ();
+		p.BeginOutputReadLine ();
+		p.BeginErrorReadLine ();
+
+		//Give some time for the process to start, otherwise, the "Connect" won't be successfu
+		//The specified time function takes into account the number of cars in the scene and the wait time for 15 cars (2500ms)
+		System.Threading.Thread.Sleep((CarManager.nr_cars*2500)/15);
+	}
+
+	// Connects socket to the python instance
+	private Socket GetSocket(int port){
+		IPEndPoint ipe = new IPEndPoint (IPAddress.Parse(pythonAddress), port);
+		Socket tempSocket = 
+			new Socket (ipe.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+
+		tempSocket.Connect (ipe);
+
+		if (tempSocket.Connected)
+			return tempSocket;
+		else
+			return null;
 	}
 
 	// Handler for external event receptions
 	private void ReceiveCallback(IAsyncResult result){
 		Socket rs = (Socket) result.AsyncState;
-
-		//Code to copy data in correct size. See issue #2 in Github Repo
-		/*byte[] sizedData = new byte[receivedLength];
-		Buffer.BlockCopy (receiveBuffer, 0, sizedData, 0, receivedLength);*/
 
 		messages.Enqueue (receiveBuffer);
 		UnityEngine.Debug.Log (carNumber + " RECEIVED ::::::::::::::::::::::::::::::::::::::::");
@@ -140,64 +172,40 @@ public class CarController : MonoBehaviour {
 		rs.BeginReceive (receiveBuffer, 0, receiveBuffer.Length, SocketFlags.None, new AsyncCallback(ReceiveCallback),null );
 	}
 		
-
-	// Spawns a python instance
-	private void SpawnPython(int port){
-		ProcessStartInfo psi = new ProcessStartInfo(); 
-		//psi.FileName = "runFlareCast.sh";
-		psi.FileName = "/Users/joaorodrigues/.pyenv/versions/3.4.3/bin/python";
-		psi.UseShellExecute = false;
-		psi.RedirectStandardOutput = true;
-		psi.RedirectStandardError = true;
-		psi.EnvironmentVariables["FLARECAST_PORT"] = port.ToString();
-		//psi.Arguments = port.ToString();
-		psi.Arguments = "flarecast-core/bin/app.py";
-		UnityEngine.Debug.Log ("Started Python in port " + port + " and "+(port+1));
-
-		Process p = new Process ();
-		p.StartInfo = psi;
-		p.OutputDataReceived += new DataReceivedEventHandler (PythonOutputHandler);
-		p.ErrorDataReceived += new DataReceivedEventHandler (PythonErrorHandler);
-		p.Start ();
-		p.BeginOutputReadLine ();
-		p.BeginErrorReadLine ();
-
-		//Give some time for the process to start, otherwise, the "Connect" won't be successful
-		System.Threading.Thread.Sleep(2000);
-	}
-
+	// Handles Python output messages
 	private static void PythonOutputHandler(object sendingProcess, 
 		DataReceivedEventArgs outLine)
 	{
-		// Collect the sort command output.
 		if (!String.IsNullOrEmpty(outLine.Data))
 		{
 			UnityEngine.Debug.Log (outLine.Data);
 		}
 	}
 
+	// Handles Python error messages
 	private static void PythonErrorHandler(object sendingProcess, 
 		DataReceivedEventArgs errLine)
 	{
-		// Collect the sort command output.
 		if (!String.IsNullOrEmpty(errLine.Data))
 		{
 			UnityEngine.Debug.Log (errLine.Data);
 		}
 	}
 
+	// Visually signals a reaction
 	public void ApplyReaction(){
 		rend.color = new Color (1f, 0f, 0f);
 	}
 
 	//Called every FRAME_INTERVAL seconds
 	public void UpdatePosition () {
-
+		//Broadcasts queued messages to nearby cars
 		BroadcastNearby ();
 
 		if (react)
 			ApplyReaction();
 
+		// If all cars have been set up and connected to their python instances	
 		if (working) {
 			text = reader.ReadLine ();
 			if (text != null && text != "NOP") {
@@ -208,8 +216,9 @@ public class CarController : MonoBehaviour {
 
 				nextPosition = ConvertCoords (coordX, coordY);
 
-				if (int.Parse (tokens [2]) == 1)
+				if (int.Parse (tokens [2]) == 1) {
 					detectionSocket.Send (BitConverter.GetBytes (LIFETIME));
+				}
 				else if(!react)
 					rend.color = new Color (0f, 1f, 0f);
 			}
@@ -219,6 +228,7 @@ public class CarController : MonoBehaviour {
 			react = false;
 	}
 
+	// Broadcasts the queued messages to nearby cars (except the current one)
 	private void BroadcastNearby(){
 		for (int i = 0; i < CarManager.nr_cars; i++) {
 			CarController car = CarManager.cars [i];
@@ -226,22 +236,17 @@ public class CarController : MonoBehaviour {
 			if (i!=carNumber && dist*20 < RADIUS_SCALE * transform.localScale.x) {
 				string result;
 				foreach (byte[] message in messages){
-					UnityEngine.Debug.Log ("Send from " + carNumber + " to " + i);
-
-					// 2 lines for debug
-					//result = System.Text.Encoding.UTF8.GetString(message);
-					//UnityEngine.Debug.Log (result);
-
+					// For message transmission debug
+					// UnityEngine.Debug.Log ("Send from " + carNumber + " to " + i);
 					car.communicationSocket.Send (message);
 				}
-				//debug react
-				//car.react = true;
 			}
 		}
 
 		messages.Clear ();
 	}
 
+	// Converts GPS coordinates to image position
 	private Vector3 ConvertCoords (double lat, double lon){
 		double proportionX = (lon - minLon) / (maxLon - minLon);
 		double proportionY = (lat - minLat) / (maxLat - minLat);
@@ -254,20 +259,7 @@ public class CarController : MonoBehaviour {
 
 		return ( new Vector3((float) x , (float) y , 0.0F));
 	}
-
-	private Socket GetSocket(int port){
-		IPEndPoint ipe = new IPEndPoint (IPAddress.Parse(pythonAddress), port);
-		Socket tempSocket = 
-			new Socket (ipe.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-
-
-		tempSocket.Connect (ipe);
-
-		if (tempSocket.Connected)
-			return tempSocket;
-		else
-			return null;
-	}
+		
 
 	private static byte[] StrToByteArray(string str)
 	{
@@ -275,21 +267,18 @@ public class CarController : MonoBehaviour {
 		return encoding.GetBytes(str);
 	}
 
-
-
-	// Use this for initialization (UNUSED, REPLACED BY Begin for On-Demand Calling)
-	public void Start () {
-	}
-
-
-	// Update is called once per frame
+	// Update is called once per frame. Used only for interpolation, but effectively replaced by UpdatePosition
 	public void Update () {
 		float step = SPEED * Time.deltaTime;
+
 		//Interpolated (smooth)
 		transform.position = Vector3.MoveTowards(transform.position, nextPosition, step);
 
-		//Not Interpolated 
+		//Not Interpolated
 		//transform.position = nextPosition;
 	}
 
+		// Use this for initialization (UNUSED, REPLACED BY Begin for On-Demand Calling)
+	public void Start () {
+	}
 }

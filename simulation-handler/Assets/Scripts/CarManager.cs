@@ -2,6 +2,10 @@
 using System.Collections;
 using System.IO;
 using System.Threading;
+using System.Collections.Generic;
+using System.Net;
+using System.Net.Sockets;
+using System.Diagnostics;
 
 public class CarManager : MonoBehaviour {
 
@@ -17,18 +21,38 @@ public class CarManager : MonoBehaviour {
 		CarController.imWidth = width;
 		CarController.imHeight = height;
 
-		string[] files = Directory.GetFiles("positions/", "positions.*.txt", SearchOption.TopDirectoryOnly);
+		string[] files = Directory.GetFiles("positions/", "*.txt", SearchOption.TopDirectoryOnly);
 
 		nr_cars = files.Length;
 		cars = new CarController[nr_cars];
 
+		List<Thread> threads = new List<Thread> ();
 
-		for (int i = 0; i < nr_cars; i++) {
+		int i = 0;
+		foreach (string name in files) {
 			GameObject newCar = Instantiate (prefab) as GameObject;
 			CarController controller = newCar.GetComponent<CarController> ();
 			cars [i] = controller;
-			controller.Begin("positions/positions." + i + ".txt", i);
+
+			// Can't be multithreaded due to instantiates
+			controller.Begin (name, i);
+
+			// Multithreaded Socket connections to python
+			Thread t = new Thread (delegate() {
+				controller.SetupSockets ();
+			});
+
+			threads.Add (t);
+			t.Start ();
+			i++;
 		}
+
+		foreach (Thread t in threads) {
+			t.Join ();
+		}
+
+		// Setup was finished for all cars, ready to get working
+		CarController.working = true;
 	}
 	
 	// Update is called once per frame
