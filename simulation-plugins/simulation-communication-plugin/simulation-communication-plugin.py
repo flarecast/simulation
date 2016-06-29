@@ -23,12 +23,11 @@ class SimulationPlugin(ConnectionPlugin):
         return int(os.environ.get('FLARECAST_PORT'))-8000
 
     def run(self):        
-        s = socket.socket()
+        self.unity_socket = socket.socket()
         port = int(os.environ.get('FLARECAST_PORT'))+1 #get port from env
         host = '127.0.0.1'
-        s.bind((host, port))
-        s.listen(1)
-        self.unity_socket, self.unity_addr = s.accept()
+        self.unity_socket.connect((host, port))
+
         while True:
             content = self.unity_socket.recv(1024)
             self.interpret(content)
