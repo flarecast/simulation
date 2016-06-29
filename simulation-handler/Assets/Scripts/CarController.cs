@@ -13,13 +13,13 @@ using UnityEngine.UI;
 
 public class CarController : MonoBehaviour {
 	// TTL for all event messages
-	private static readonly int LIFETIME = 1000000;
+	private static readonly int LIFETIME = 10000;
 
 	// Has finished setup and is ready to read from file and socket
 	public static bool working = false;
 
 	// The port from which the program counts up
-	private static readonly int BASE_PORT = 27100;
+	private static readonly int BASE_PORT = 20000;
 
 	//Speed of interpolated movement
 	private static readonly int SPEED = 100;
@@ -53,6 +53,8 @@ public class CarController : MonoBehaviour {
 
 	// Use immediate message reaction or at intervals
 	private static readonly bool immediateBroadcast = false;
+
+	public static bool[] defaultToSend;
 
 
 	// Map coordinate limits
@@ -184,7 +186,7 @@ public class CarController : MonoBehaviour {
 
 				if(bytesReceived > 0){
 					if(immediateBroadcast)
-						BroadcastMessage(buffer);
+						BroadcastMessage(buffer, defaultToSend);
 					else
 						messages.Enqueue (buffer);
 					UnityEngine.Debug.Log (carNumber + " RECEIVED ::::::::::::::::::::::::::::::::::::::::");
@@ -263,26 +265,39 @@ public class CarController : MonoBehaviour {
 	}
 
 	// Sends a given message to nearby cars
-	private void BroadcastMessage(byte[] message){
+	private bool[] BroadcastMessage(byte[] message, bool[] to_send ){
+		bool[] nextSend = new bool[CarManager.nr_cars];
+
 		for (int i = 0; i < CarManager.nr_cars; i++) {
 			CarController car = CarManager.cars [i];
 			float dist = Vector3.Distance(car.nextPosition, nextPosition);
-			
+
 			// DEBUG: Distances when broadcasting
 			//UnityEngine.Debug.Log("D: "+(dist)+" R: "+ (sizeFactor*(RADIUS_SCALE/10))*2);
-			if (i!=carNumber && dist < (sizeFactor*(RADIUS_SCALE/10))*2) {
-				string result;
-				// DEBUG: Warn about one car sending to another
-				//UnityEngine.Debug.Log ("Send from " + carNumber + " to " + i);
-				car.communicationSocket.Send (message);
+			if (i!=carNumber && to_send[i] == true) {
+				if (dist < (sizeFactor * (RADIUS_SCALE / 10)) * 2 * 0.9) {
+					// DEBUG: Warn about one car sending to another
+					//UnityEngine.Debug.Log ("Send from " + carNumber + " to " + i);
+					car.communicationSocket.Send (message);
+				} else
+					nextSend [i] = true;
 			}
 		}
+		return nextSend;
 	}
 
 	// Broadcasts the queued messages to nearby cars (except the current one)
 	private void BroadcastNearby(){
-		while(messages.Count > 0)
-			BroadcastMessage(messages.Dequeue());
+		while (messages.Count > 0) {
+			byte[] message = messages.Dequeue ();
+			bool[] nextSend = BroadcastMessage (message, defaultToSend);
+			new Thread (delegate() {
+				for (int j = 0; j < LIFETIME; j += 1000) {
+					BroadcastMessage (message, nextSend);
+					Thread.Sleep (1000);
+				}
+			}).Start ();
+		}
 	}
 
 	// Converts GPS coordinates to image position

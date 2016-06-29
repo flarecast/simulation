@@ -30,11 +30,14 @@ public class CarManager : MonoBehaviour {
 
 		List<Thread> threads = new List<Thread> ();
 
+		CarController.defaultToSend = new bool[nr_cars];
+
 		int i = 0;
 		foreach (string name in files) {
 			GameObject newCar = Instantiate (prefab) as GameObject;
 			CarController controller = newCar.GetComponent<CarController> ();
 			cars [i] = controller;
+			CarController.defaultToSend [i] = true;
 
 			// Can't be multithreaded due to instantiates
 			controller.Begin (name, i);
