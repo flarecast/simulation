@@ -9,25 +9,28 @@ using System.Text;
 using System.Globalization;
 using System.Collections.Generic;
 using System.Threading;
+using UnityEngine.UI;
 
 public class CarController : MonoBehaviour {
 	// TTL for all event messages
-	private static readonly int LIFETIME = 10000;
+	private static readonly int LIFETIME = 1000000;
 
 	// Has finished setup and is ready to read from file and socket
 	public static bool working = false;
 
 	// The port from which the program counts up
-	private static readonly int BASE_PORT = 20000;
+	private static readonly int BASE_PORT = 27100;
 
 	//Speed of interpolated movement
 	private static readonly int SPEED = 100;
 
 	// Time between frames
-	private static readonly float FRAME_INTERVAL = 0.5F;
+	public static readonly float FRAME_INTERVAL = 0.1F;
 
 	// Distance multiplier for the radius
-	public static readonly float RADIUS_SCALE = 10;
+	public static readonly float RADIUS_SCALE = 15;
+
+	private float sizeFactor;
 
 	private static readonly String pythonAddress = "127.0.0.1";
 
@@ -38,13 +41,18 @@ public class CarController : MonoBehaviour {
 	// Events are forwarded through this socket
 	public Socket communicationSocket;
 
-	private byte[] receiveBuffer = new byte[1024];
-
 	// Variable for a positions file line
 	private string text;
 
+	private static int line;
+
+	public string positionFile;
+
 	// Positions file reader
 	private StreamReader reader;
+
+	// Use immediate message reaction or at intervals
+	private static readonly bool immediateBroadcast = false;
 
 
 	// Map coordinate limits
@@ -67,7 +75,7 @@ public class CarController : MonoBehaviour {
 	public Queue<byte[]> messages;
 
 	//Next file position of the current car
-	private Vector3 nextPosition;
+	public Vector3 nextPosition;
 
 	//If the file should react to an event received from another entity
 	public bool react;
@@ -87,11 +95,14 @@ public class CarController : MonoBehaviour {
 		radius.transform.localScale = new Vector3(RADIUS_SCALE, RADIUS_SCALE, 0);
 		radius.transform.position = new Vector3 (1, 1, 0);
 
+		sizeFactor = transform.localScale.x;
 
 		react = false;
 		messages = new Queue<byte[]>();
 
 		rend = GetComponent<SpriteRenderer>();
+
+		positionFile = filename;
 
 		FileInfo f = new FileInfo (filename);
 		reader = f.OpenText();
@@ -160,22 +171,22 @@ public class CarController : MonoBehaviour {
 		p.Start ();
 		p.BeginOutputReadLine ();
 		p.BeginErrorReadLine ();
-
-		//Give some time for the process to start, otherwise, the "Connect" won't be successfu
-		//The specified time function takes into account the number of cars in the scene and the wait time for 15 cars (2500ms)
-		//System.Threading.Thread.Sleep((CarManager.nr_cars*2500)/15);
 	}
 
 
 	// Start receiving messages in communication socket. Will be called recursively and asynchronously
 	public void StartReceiving(){
-		byte[] buffer = new byte[1024];
-		communicationSocket.BeginReceive(buffer, 0, 1024, SocketFlags.None, (state) =>
+		int size = 1024;
+		byte[] buffer = new byte[size];
+		communicationSocket.BeginReceive(buffer, 0, size, SocketFlags.None, (state) =>
 			{
 				int bytesReceived = communicationSocket.EndReceive(state);
 
 				if(bytesReceived > 0){
-					messages.Enqueue (receiveBuffer);
+					if(immediateBroadcast)
+						BroadcastMessage(buffer);
+					else
+						messages.Enqueue (buffer);
 					UnityEngine.Debug.Log (carNumber + " RECEIVED ::::::::::::::::::::::::::::::::::::::::");
 					react = true;
 				}
@@ -211,16 +222,23 @@ public class CarController : MonoBehaviour {
 
 	//Called every FRAME_INTERVAL seconds
 	public void UpdatePosition () {
-		//Broadcasts queued messages to nearby cars
-		BroadcastNearby ();
+
+		if(!immediateBroadcast)
+			BroadcastNearby();
 
 		if (react)
 			ApplyReaction();
 
 		// If all cars have been set up and connected to their python instances	
 		if (working) {
+			if (carNumber == 0) {
+				GameObject.Find ("Status").GetComponent<Text>().text = line.ToString ();
+				line++;
+			}
+
+
 			text = reader.ReadLine ();
-			if (text != null && text != "NOP") {
+			if (text != null && text != "nop") {
 				string[] tokens = text.Split (' ');
 
 				double coordX = double.Parse (tokens [0], CultureInfo.InvariantCulture);
@@ -228,34 +246,43 @@ public class CarController : MonoBehaviour {
 
 				nextPosition = ConvertCoords (coordX, coordY);
 
-				if (int.Parse (tokens [2]) == 1) {
+				if (int.Parse (tokens [2]) == 1)
 					detectionSocket.Send (BitConverter.GetBytes (LIFETIME));
-				}
-				else if(!react)
-					rend.color = new Color (0f, 1f, 0f);
 			}
 		}
 
-		if (react)
-			react = false;
+		if(!react){
+			// DEBUG: Identify a car
+			if(carNumber == 1000)
+				rend.color = new Color (0f, 0f, 1f);
+			else
+				rend.color = new Color (0f, 1f, 0f);
+		}
+		
+		react = false;
+	}
+
+	// Sends a given message to nearby cars
+	private void BroadcastMessage(byte[] message){
+		for (int i = 0; i < CarManager.nr_cars; i++) {
+			CarController car = CarManager.cars [i];
+			float dist = Vector3.Distance(car.nextPosition, nextPosition);
+			
+			// DEBUG: Distances when broadcasting
+			//UnityEngine.Debug.Log("D: "+(dist)+" R: "+ (sizeFactor*(RADIUS_SCALE/10))*2);
+			if (i!=carNumber && dist < (sizeFactor*(RADIUS_SCALE/10))*2) {
+				string result;
+				// DEBUG: Warn about one car sending to another
+				//UnityEngine.Debug.Log ("Send from " + carNumber + " to " + i);
+				car.communicationSocket.Send (message);
+			}
+		}
 	}
 
 	// Broadcasts the queued messages to nearby cars (except the current one)
 	private void BroadcastNearby(){
-		for (int i = 0; i < CarManager.nr_cars; i++) {
-			CarController car = CarManager.cars [i];
-			float dist = Vector3.Distance(car.transform.position, transform.position);
-			if (i!=carNumber && dist*20 < RADIUS_SCALE * transform.localScale.x) {
-				string result;
-				foreach (byte[] message in messages){
-					// For message transmission debug
-					//UnityEngine.Debug.Log ("Send from " + carNumber + " to " + i);
-					car.communicationSocket.Send (message);
-				}
-			}
-		}
-
-		messages.Clear ();
+		while(messages.Count > 0)
+			BroadcastMessage(messages.Dequeue());
 	}
 
 	// Converts GPS coordinates to image position
@@ -284,10 +311,10 @@ public class CarController : MonoBehaviour {
 		float step = SPEED * Time.deltaTime;
 
 		//Interpolated (smooth)
-		transform.position = Vector3.MoveTowards(transform.position, nextPosition, step);
+		//transform.position = Vector3.MoveTowards(transform.position, nextPosition, step);
 
 		//Not Interpolated
-		//transform.position = nextPosition;
+		transform.position = nextPosition;
 	}
 
 		// Use this for initialization (UNUSED, REPLACED BY Begin for On-Demand Calling)

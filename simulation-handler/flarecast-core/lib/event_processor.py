@@ -29,8 +29,10 @@ class EventProcessor(Component):
         Reactor.add_plugin_events()
 
     def react_internal(self, event):
-        alert = Alert(event)
-        Reactor.react(alert)
+        temp = 1
+        #alert = Alert(event)
+        #Reactor.react(alert)
+
 
     def compute_distance(self, location):
         # Not relevant for simulation
@@ -39,9 +41,10 @@ class EventProcessor(Component):
         return 0
 
     def react_external(self, event):
-        distance = self.compute_distance(event.location)
-        alert = Alert(event, distance)
-        Reactor.react(alert)
+        temp = 1
+        #distance = self.compute_distance(event.location)
+        #alert = Alert(event, distance)
+        #Reactor.react(alert)
 
     @handler("msg_received")
     def msg_received(self, *args):

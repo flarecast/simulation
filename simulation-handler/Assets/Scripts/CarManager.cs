@@ -13,6 +13,8 @@ public class CarManager : MonoBehaviour {
 	public static CarController[] cars;
 	public static int nr_cars;
 
+	public static int status;
+
 	// Use this for initialization
 	void Start () {
 
