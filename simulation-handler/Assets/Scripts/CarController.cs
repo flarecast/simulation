@@ -22,7 +22,7 @@ public class CarController : MonoBehaviour {
 	private static readonly int BASE_PORT = 20000;
 
 	//Speed of interpolated movement
-	private static readonly int SPEED = 100;
+	private static readonly int SPEED = 1000;
 
 	// Time between frames
 	public static readonly float FRAME_INTERVAL = 0.1F;
@@ -56,7 +56,6 @@ public class CarController : MonoBehaviour {
 
 	public static bool[] defaultToSend;
 
-
 	// Map coordinate limits
 	private static readonly double minLat = 40.980779F;
 	private static readonly double maxLat = 41.399837F;
@@ -79,9 +78,6 @@ public class CarController : MonoBehaviour {
 	//Next file position of the current car
 	public Vector3 nextPosition;
 
-	//If the file should react to an event received from another entity
-	public bool react;
-
 	//The number of this car
 	public int carNumber;
 
@@ -98,13 +94,10 @@ public class CarController : MonoBehaviour {
 		radius.transform.position = new Vector3 (1, 1, 0);
 
 		sizeFactor = transform.localScale.x;
-
-		react = false;
 		messages = new Queue<byte[]>();
-
 		rend = GetComponent<SpriteRenderer>();
-
 		positionFile = filename;
+		nextPosition = new Vector3 (5000, 5000, 100);
 
 		FileInfo f = new FileInfo (filename);
 		reader = f.OpenText();
@@ -190,7 +183,6 @@ public class CarController : MonoBehaviour {
 					else
 						messages.Enqueue (buffer);
 					UnityEngine.Debug.Log (carNumber + " RECEIVED ::::::::::::::::::::::::::::::::::::::::");
-					react = true;
 				}
 
 				StartReceiving();
@@ -217,19 +209,19 @@ public class CarController : MonoBehaviour {
 		}
 	}
 
-	// Visually signals a reaction
-	public void ApplyReaction(){
-		rend.color = new Color (1f, 0f, 0f);
-	}
 
 	//Called every FRAME_INTERVAL seconds
 	public void UpdatePosition () {
 
+		if (messages.Count != 0)
+			rend.color = new Color (1f, 0f, 0f);
+		else
+			rend.color = new Color (0f, 1f, 0f);
+
+
 		if(!immediateBroadcast)
 			BroadcastNearby();
 
-		if (react)
-			ApplyReaction();
 
 		// If all cars have been set up and connected to their python instances	
 		if (working) {
@@ -253,15 +245,10 @@ public class CarController : MonoBehaviour {
 			}
 		}
 
-		if(!react){
-			// DEBUG: Identify a car
-			if(carNumber == 1000)
-				rend.color = new Color (0f, 0f, 1f);
-			else
-				rend.color = new Color (0f, 1f, 0f);
-		}
+		// DEBUG: Identify a car
+		if(carNumber == 1000)
+			rend.color = new Color (0f, 0f, 1f);
 		
-		react = false;
 	}
 
 	// Sends a given message to nearby cars
