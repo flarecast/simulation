@@ -12,8 +12,8 @@ using System.Threading;
 using UnityEngine.UI;
 
 public class CarController : MonoBehaviour {
-	// TTL for all event messages
-	private static readonly int LIFETIME = 10000;
+	// TTL for all event messages (seconds)
+	private static readonly float LIFETIME = 0.2F;
 
 	// Has finished setup and is ready to read from file and socket
 	public static bool working = false;
@@ -24,7 +24,7 @@ public class CarController : MonoBehaviour {
 	//Speed of interpolated movement
 	private static readonly int SPEED = 1000;
 
-	// Time between frames
+	// Time between frames (seconds)
 	public static readonly float FRAME_INTERVAL = 0.1F;
 
 	// Distance multiplier for the radius
@@ -279,7 +279,7 @@ public class CarController : MonoBehaviour {
 			byte[] message = messages.Dequeue ();
 			bool[] nextSend = BroadcastMessage (message, defaultToSend);
 			new Thread (delegate() {
-				for (int j = 0; j < LIFETIME; j += 1000) {
+				for (int j = 0; j < LIFETIME; j += 1) {
 					BroadcastMessage (message, nextSend);
 					Thread.Sleep (1000);
 				}
@@ -291,7 +291,6 @@ public class CarController : MonoBehaviour {
 	private Vector3 ConvertCoords (double lat, double lon){
 		double proportionX = (lon - minLon) / (maxLon - minLon);
 		double proportionY = (lat - minLat) / (maxLat - minLat);
-
 		double x = (proportionX * imWidth) - (imWidth / 2);
 		double y = (proportionY * imHeight) - (imHeight / 2);
 

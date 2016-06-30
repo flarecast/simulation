@@ -1,0 +1,2751 @@
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+40.98275 -8.63209 0
+40.98627 -8.63196 0
+40.98646 -8.63192 0
+40.98654 -8.63189 0
+40.98661 -8.63184 0
+40.98671 -8.63174 0
+40.98681 -8.63162 0
+40.98711 -8.6312 0
+40.98729 -8.63092 0
+40.98735 -8.63084 0
+40.98747 -8.63072 0
+40.98754 -8.63067 0
+40.98767 -8.63061 0
+40.98773 -8.63059 0
+40.9878 -8.63058 0
+40.98789 -8.63059 0
+40.98811 -8.63059 0
+40.98849 -8.63055 0
+40.98893 -8.63054 0
+40.98897 -8.63053 0
+40.98904 -8.63052 0
+40.98907 -8.63049 0
+40.98914 -8.63044 0
+40.99042 -8.6297 0
+40.99052 -8.62966 0
+40.99065 -8.62962 0
+40.99124 -8.62949 0
+40.99137 -8.62943 0
+40.99142 -8.62943 0
+40.99148 -8.62944 0
+40.99155 -8.62947 0
+40.99161 -8.62952 0
+40.99163 -8.62953 0
+40.99166 -8.62955 0
+40.99174 -8.62962 0
+40.99457 -8.63234 0
+40.99477 -8.63252 0
+40.99514 -8.63289 0
+40.99522 -8.63296 0
+40.99581 -8.63355 0
+40.99663 -8.63447 0
+40.99695 -8.63441 0
+40.99709 -8.63433 0
+40.99721 -8.6343 0
+40.99732 -8.63428 0
+41.00381 -8.63422 0
+41.00381 -8.6342 0
+41.00383 -8.63416 0
+41.00383 -8.63415 0
+41.00384 -8.63413 0
+41.00389 -8.63408 0
+41.0039 -8.63408 0
+41.0039 -8.63407 0
+41.00391 -8.63407 0
+41.00392 -8.63406 0
+41.00394 -8.63406 0
+41.00394 -8.63405 0
+41.00404 -8.63405 0
+41.00405 -8.63406 0
+41.00406 -8.63406 0
+41.00407 -8.63407 0
+41.00408 -8.63407 0
+41.00408 -8.63408 0
+41.00409 -8.63409 0
+41.0041 -8.63409 0
+41.0041 -8.6341 0
+41.00411 -8.63411 0
+41.00412 -8.63413 0
+41.00414 -8.63415 0
+41.00414 -8.63417 0
+41.00415 -8.63418 0
+41.00416 -8.6342 0
+41.00416 -8.63422 0
+41.00837 -8.63416 0
+41.00838 -8.63413 0
+41.00839 -8.63412 0
+41.00839 -8.6341 0
+41.00842 -8.63407 0
+41.00843 -8.63407 0
+41.00844 -8.63406 0
+41.00843 -8.63395 0
+41.00849 -8.63376 0
+41.00847 -8.63169 0
+41.00846 -8.63155 0
+41.00845 -8.62739 0
+41.00844 -8.62721 0
+41.00844 -8.62533 0
+41.00841 -8.62523 0
+41.00842 -8.62476 0
+41.00841 -8.62476 0
+41.00841 -8.62473 0
+41.0084 -8.62472 0
+41.0084 -8.62467 0
+41.00841 -8.62467 0
+41.0084 -8.62451 0
+41.00843 -8.62435 0
+41.00844 -8.62221 0
+41.00834 -8.6216 0
+41.00831 -8.62157 0
+41.00825 -8.62149 0
+41.00822 -8.62138 0
+41.0082 -8.62121 0
+41.0082 -8.621 0
+41.00821 -8.62089 0
+41.00825 -8.62074 0
+41.00828 -8.62067 0
+41.00834 -8.62061 0
+41.00838 -8.62043 0
+41.0084 -8.62029 0
+41.00839 -8.61987 0
+41.0084 -8.6195 0
+41.00838 -8.61614 0
+41.00828 -8.61333 0
+41.00828 -8.61253 0
+41.00839 -8.60873 0
+41.0084 -8.60689 0
+41.00839 -8.60661 0
+41.00838 -8.60501 0
+41.00829 -8.6007 0
+41.00829 -8.60001 0
+41.00831 -8.59968 0
+41.00831 -8.59954 0
+41.00836 -8.59888 0
+41.00846 -8.59809 0
+41.00865 -8.59712 0
+41.00873 -8.59682 0
+41.00914 -8.59549 0
+41.00932 -8.595 0
+41.00939 -8.59478 0
+41.00951 -8.59446 0
+41.00955 -8.59432 0
+41.00958 -8.59426 0
+41.00988 -8.59339 0
+41.00994 -8.59325 0
+41.01014 -8.59266 0
+41.01033 -8.59215 0
+41.0104 -8.59193 0
+41.01046 -8.59178 0
+41.01061 -8.59133 0
+41.01066 -8.59121 0
+41.01071 -8.59106 0
+41.01075 -8.59096 0
+41.01086 -8.59063 0
+41.01092 -8.59048 0
+41.01095 -8.59038 0
+41.01121 -8.58966 0
+41.01125 -8.58952 0
+41.01139 -8.58912 0
+41.01146 -8.58886 0
+41.0115 -8.58874 0
+41.0116 -8.58835 0
+41.01174 -8.58771 0
+41.01178 -8.58748 0
+41.01186 -8.58684 0
+41.01188 -8.58654 0
+41.01188 -8.58596 0
+41.01186 -8.58558 0
+41.01183 -8.58526 0
+41.01171 -8.58449 0
+41.0114 -8.58313 0
+41.01139 -8.58306 0
+41.01133 -8.58283 0
+41.01129 -8.58263 0
+41.01122 -8.58236 0
+41.01116 -8.58208 0
+41.01112 -8.58193 0
+41.01109 -8.58178 0
+41.01105 -8.58164 0
+41.01101 -8.58144 0
+41.01087 -8.58086 0
+41.01085 -8.5807 0
+41.01082 -8.58054 0
+41.01079 -8.58025 0
+41.01076 -8.57973 0
+41.01076 -8.57923 0
+41.01078 -8.57891 0
+41.01083 -8.57843 0
+41.01091 -8.57797 0
+41.01101 -8.57752 0
+41.0116 -8.57543 0
+41.01172 -8.57488 0
+41.01174 -8.57472 0
+41.01177 -8.57456 0
+41.01181 -8.57424 0
+41.01182 -8.57393 0
+41.01183 -8.57382 0
+41.01183 -8.57341 0
+41.01182 -8.57324 0
+41.01182 -8.5731 0
+41.0118 -8.57298 0
+41.01178 -8.57275 0
+41.01171 -8.57229 0
+41.01162 -8.57184 0
+41.01128 -8.57041 0
+41.01126 -8.57035 0
+41.01061 -8.56788 0
+41.0106 -8.56781 0
+41.01019 -8.56612 0
+41.01016 -8.56594 0
+41.01012 -8.56577 0
+41.01007 -8.56544 0
+41.01006 -8.56527 0
+41.01004 -8.56511 0
+41.01003 -8.56491 0
+41.01004 -8.56365 0
+41.01 -8.56195 0
+41.00998 -8.56181 0
+41.00997 -8.56164 0
+41.0099 -8.56117 0
+41.00981 -8.56069 0
+41.0097 -8.56021 0
+41.00955 -8.55939 0
+41.00944 -8.55861 0
+41.00941 -8.55816 0
+41.00943 -8.55745 0
+41.00948 -8.55704 0
+41.00957 -8.55656 0
+41.0096 -8.55645 0
+41.00963 -8.5563 0
+41.00969 -8.55608 0
+41.00995 -8.5554 0
+41.01032 -8.55472 0
+41.01053 -8.55441 0
+41.01139 -8.55306 0
+41.01198 -8.55208 0
+41.01224 -8.55156 0
+41.01243 -8.5511 0
+41.01269 -8.55036 0
+41.01283 -8.54979 0
+41.01296 -8.54909 0
+41.01303 -8.5485 0
+41.01306 -8.54798 0
+41.01305 -8.54735 0
+41.01299 -8.54658 0
+41.01295 -8.54628 0
+41.0128 -8.54553 0
+41.01272 -8.54522 0
+41.01259 -8.54479 0
+41.01249 -8.54451 0
+41.01237 -8.54421 0
+41.01219 -8.54381 0
+41.01206 -8.54355 0
+41.01158 -8.54275 0
+41.01089 -8.54177 0
+41.01047 -8.5412 0
+41.01007 -8.54058 0
+41.00972 -8.53997 0
+41.00959 -8.5397 0
+41.00929 -8.53896 0
+41.00916 -8.53853 0
+41.00906 -8.5381 0
+41.00893 -8.53742 0
+41.00888 -8.53683 0
+41.00886 -8.53622 0
+41.00893 -8.53526 0
+41.00897 -8.53495 0
+41.00905 -8.53452 0
+41.00925 -8.53375 0
+41.00946 -8.53317 0
+41.00958 -8.5329 0
+41.00977 -8.53252 0
+41.0098 -8.53245 0
+41.00998 -8.53214 0
+41.01031 -8.53165 0
+41.0104 -8.53153 0
+41.01067 -8.53121 0
+41.01095 -8.53092 0
+41.01115 -8.53074 0
+41.01145 -8.53049 0
+41.01166 -8.53034 0
+41.01215 -8.53005 0
+41.01242 -8.52992 0
+41.01289 -8.52972 0
+41.01328 -8.52958 0
+41.01353 -8.52948 0
+41.01385 -8.52938 0
+41.01448 -8.52916 0
+41.01524 -8.52887 0
+41.0157 -8.52867 0
+41.01619 -8.52844 0
+41.01644 -8.52831 0
+41.01692 -8.52801 0
+41.01712 -8.52784 0
+41.01746 -8.52758 0
+41.01799 -8.52714 0
+41.01893 -8.52612 0
+41.01893 -8.52611 0
+41.01923 -8.52571 0
+41.01953 -8.52517 0
+41.01991 -8.52453 0
+41.02028 -8.52378 0
+41.02052 -8.52314 0
+41.0208 -8.52223 0
+41.02095 -8.52165 0
+41.02124 -8.52018 0
+41.02206 -8.5149 0
+41.0223 -8.51366 0
+41.02297 -8.51084 0
+41.02327 -8.5098 0
+41.02469 -8.50552 0
+41.02514 -8.50403 0
+41.02522 -8.50373 0
+41.02533 -8.50341 0
+41.02549 -8.50284 0
+41.02555 -8.50259 0
+41.02562 -8.50236 0
+41.0258 -8.50156 0
+41.02586 -8.50134 0
+41.0259 -8.50111 0
+41.02617 -8.50008 0
+41.02633 -8.49959 0
+41.02642 -8.49936 0
+41.02646 -8.49923 0
+41.02672 -8.49862 0
+41.02697 -8.49813 0
+41.02703 -8.49804 0
+41.02728 -8.49762 0
+41.02755 -8.49723 0
+41.02771 -8.49702 0
+41.02812 -8.49655 0
+41.0283 -8.49637 0
+41.02855 -8.49614 0
+41.02883 -8.4959 0
+41.02915 -8.49566 0
+41.02966 -8.49533 0
+41.02987 -8.49522 0
+41.03036 -8.495 0
+41.0306 -8.49493 0
+41.03085 -8.49484 0
+41.03149 -8.49471 0
+41.03179 -8.49468 0
+41.03204 -8.49467 0
+41.03259 -8.49469 0
+41.03277 -8.49471 0
+41.03307 -8.49476 0
+41.03463 -8.4951 0
+41.03497 -8.49515 0
+41.03531 -8.49518 0
+41.03559 -8.49517 0
+41.03617 -8.49511 0
+41.03644 -8.49505 0
+41.03706 -8.49485 0
+41.03741 -8.49469 0
+41.03744 -8.49468 0
+41.03772 -8.49452 0
+41.03814 -8.49426 0
+41.03833 -8.49412 0
+41.03845 -8.49402 0
+41.0388 -8.49369 0
+41.03886 -8.49364 0
+41.03915 -8.49331 0
+41.03954 -8.49277 0
+41.03974 -8.49245 0
+41.0399 -8.49216 0
+41.04007 -8.49181 0
+41.0402 -8.49151 0
+41.04024 -8.49139 0
+41.04034 -8.49115 0
+41.04048 -8.49072 0
+41.04059 -8.49027 0
+41.04061 -8.49016 0
+41.04099 -8.48854 0
+41.04153 -8.48646 0
+41.04204 -8.48495 0
+41.04222 -8.48446 0
+41.0427 -8.48332 0
+41.04324 -8.48232 0
+41.04363 -8.48167 0
+41.04409 -8.48096 0
+41.04483 -8.47996 0
+41.04508 -8.47966 0
+41.04542 -8.47928 0
+41.04615 -8.47855 0
+41.04683 -8.47792 0
+41.0476 -8.47728 0
+41.04974 -8.47558 0
+41.05017 -8.47522 0
+41.05099 -8.47449 0
+41.05178 -8.47375 0
+41.0521 -8.47343 0
+41.05532 -8.47044 0
+41.05608 -8.46966 0
+41.05673 -8.46891 0
+41.05743 -8.46796 0
+41.05758 -8.46774 0
+41.05771 -8.46757 0
+41.05788 -8.46732 0
+41.05823 -8.46676 0
+41.05866 -8.46601 0
+41.05951 -8.46435 0
+41.06011 -8.46309 0
+41.06024 -8.46279 0
+41.06103 -8.46111 0
+41.06327 -8.45669 0
+41.06411 -8.45511 0
+41.06444 -8.45455 0
+41.06472 -8.45414 0
+41.06514 -8.45357 0
+41.06546 -8.4532 0
+41.06592 -8.45274 0
+41.06626 -8.45244 0
+41.06687 -8.45201 0
+41.06724 -8.4518 0
+41.06767 -8.45159 0
+41.06793 -8.45148 0
+41.06829 -8.45135 0
+41.06852 -8.45129 0
+41.06894 -8.45121 0
+41.0695 -8.45114 0
+41.06996 -8.45114 0
+41.07017 -8.45115 0
+41.07051 -8.45119 0
+41.07095 -8.45126 0
+41.07144 -8.45136 0
+41.07153 -8.45137 0
+41.0761 -8.45231 0
+41.07633 -8.45235 0
+41.07731 -8.45256 0
+41.07767 -8.45262 0
+41.07799 -8.4527 0
+41.07833 -8.45276 0
+41.07877 -8.45286 0
+41.08101 -8.45329 0
+41.08131 -8.45336 0
+41.08165 -8.45342 0
+41.08483 -8.4541 0
+41.08607 -8.4544 0
+41.09226 -8.45609 0
+41.09295 -8.45637 0
+41.09351 -8.45666 0
+41.09462 -8.45683 0
+41.09528 -8.45695 0
+41.09564 -8.45697 0
+41.09599 -8.45703 0
+41.09651 -8.45708 0
+41.09693 -8.45708 0
+41.09737 -8.45699 0
+41.09762 -8.45692 0
+41.09804 -8.45685 0
+41.09832 -8.45679 0
+41.09856 -8.4567 0
+41.09875 -8.45659 0
+41.09895 -8.45646 0
+41.09921 -8.45627 0
+41.09972 -8.45583 0
+41.10018 -8.45547 0
+41.10067 -8.45502 0
+41.10107 -8.45461 0
+41.10141 -8.45413 0
+41.10196 -8.45293 0
+41.10385 -8.44804 0
+41.10536 -8.44311 0
+41.10582 -8.44128 0
+41.10615 -8.43983 0
+41.10661 -8.43761 0
+41.10679 -8.43698 0
+41.10703 -8.43626 0
+41.10715 -8.43596 0
+41.10756 -8.43513 0
+41.10778 -8.43476 0
+41.10798 -8.43446 0
+41.10822 -8.43414 0
+41.1087 -8.43359 0
+41.10898 -8.43331 0
+41.1092 -8.43311 0
+41.1095 -8.43286 0
+41.10973 -8.43269 0
+41.10994 -8.43255 0
+41.11051 -8.43223 0
+41.11074 -8.43212 0
+41.11123 -8.43195 0
+41.11147 -8.43188 0
+41.11172 -8.43182 0
+41.11223 -8.43175 0
+41.11272 -8.43172 0
+41.11337 -8.43176 0
+41.11352 -8.43179 0
+41.11373 -8.43182 0
+41.11397 -8.43187 0
+41.11422 -8.43194 0
+41.11653 -8.43271 0
+41.11714 -8.43289 0
+41.11776 -8.43305 0
+41.11826 -8.43316 0
+41.11952 -8.43334 0
+41.12003 -8.43338 0
+41.12053 -8.43339 0
+41.12114 -8.43337 0
+41.12178 -8.43333 0
+41.12196 -8.43331 0
+41.12214 -8.43328 0
+41.12277 -8.4332 0
+41.12342 -8.43309 0
+41.12406 -8.43295 0
+41.12433 -8.43288 0
+41.12488 -8.4327 0
+41.12551 -8.43244 0
+41.12618 -8.43211 0
+41.12741 -8.43142 0
+41.12787 -8.43118 0
+41.12851 -8.43081 0
+41.1292 -8.43033 0
+41.12942 -8.43015 0
+41.12964 -8.42999 0
+41.12986 -8.42981 0
+41.13027 -8.42945 0
+41.13116 -8.42863 0
+41.13194 -8.42786 0
+41.13264 -8.42713 0
+41.13287 -8.42692 0
+41.1329 -8.4269 0
+41.13311 -8.42672 0
+41.13373 -8.42629 0
+41.13397 -8.42615 0
+41.13428 -8.42599 0
+41.13464 -8.42582 0
+41.13494 -8.42572 0
+41.13536 -8.4256 0
+41.13579 -8.42553 0
+41.13597 -8.42551 0
+41.13628 -8.42549 0
+41.1368 -8.42551 0
+41.1371 -8.42554 0
+41.13753 -8.42562 0
+41.138 -8.42575 0
+41.13856 -8.42596 0
+41.13957 -8.42646 0
+41.14087 -8.42716 0
+41.1415 -8.42748 0
+41.14852 -8.43122 0
+41.14925 -8.43164 0
+41.14945 -8.43177 0
+41.14966 -8.43189 0
+41.15035 -8.43235 0
+41.15091 -8.43277 0
+41.15144 -8.43319 0
+41.15217 -8.43382 0
+41.15277 -8.4344 0
+41.15389 -8.43562 0
+41.15465 -8.43657 0
+41.15588 -8.43824 0
+41.15626 -8.43879 0
+41.15851 -8.4419 0
+41.15851 -8.44191 0
+41.15852 -8.44192 0
+41.16094 -8.44528 0
+41.16149 -8.44599 0
+41.16174 -8.44629 0
+41.1621 -8.44669 0
+41.16235 -8.44694 0
+41.16277 -8.44733 0
+41.16297 -8.4475 0
+41.16319 -8.44767 0
+41.16364 -8.44799 0
+41.1641 -8.44827 0
+41.16456 -8.44852 0
+41.16481 -8.44864 0
+41.16505 -8.44874 0
+41.16565 -8.44895 0
+41.16607 -8.44907 0
+41.16618 -8.44909 0
+41.16632 -8.44913 0
+41.16668 -8.44919 0
+41.16729 -8.44925 0
+41.16754 -8.44926 0
+41.16816 -8.44925 0
+41.16866 -8.44921 0
+41.17011 -8.449 0
+41.17048 -8.44893 0
+41.17631 -8.44814 0
+41.17664 -8.44812 0
+41.17691 -8.44812 0
+41.17703 -8.44813 0
+41.17754 -8.44822 0
+41.17776 -8.44827 0
+41.17822 -8.44845 0
+41.17847 -8.44857 0
+41.17868 -8.4487 0
+41.17908 -8.44898 0
+41.17937 -8.44924 0
+41.17951 -8.44938 0
+41.17974 -8.44963 0
+41.18006 -8.45003 0
+41.18015 -8.45016 0
+41.18061 -8.45089 0
+41.18076 -8.45115 0
+41.18089 -8.45134 0
+41.18101 -8.45154 0
+41.18102 -8.45154 0
+41.18116 -8.45175 0
+41.18126 -8.45187 0
+41.18134 -8.45198 0
+41.1816 -8.45229 0
+41.18202 -8.45273 0
+41.1822 -8.45289 0
+41.18276 -8.45332 0
+41.18331 -8.45366 0
+41.18372 -8.45386 0
+41.18389 -8.45393 0
+41.18917 -8.45559 0
+41.18979 -8.45575 0
+41.19028 -8.45582 0
+41.19055 -8.45584 0
+41.19072 -8.45584 0
+41.19089 -8.45583 0
+41.19099 -8.45583 0
+41.19132 -8.45579 0
+41.19165 -8.45573 0
+41.19201 -8.45563 0
+41.19249 -8.45545 0
+41.19267 -8.45537 0
+41.19304 -8.45517 0
+41.19327 -8.45503 0
+41.19349 -8.45488 0
+41.19381 -8.45462 0
+41.19403 -8.45442 0
+41.19438 -8.45407 0
+41.19478 -8.45357 0
+41.19495 -8.45334 0
+41.19527 -8.45284 0
+41.19571 -8.4521 0
+41.19599 -8.45166 0
+41.19621 -8.45135 0
+41.19646 -8.45104 0
+41.19657 -8.45093 0
+41.19676 -8.45072 0
+41.19708 -8.45043 0
+41.19717 -8.45036 0
+41.19726 -8.45028 0
+41.19771 -8.44996 0
+41.19786 -8.44987 0
+41.19814 -8.44972 0
+41.19824 -8.44968 0
+41.19833 -8.44963 0
+41.19885 -8.44944 0
+41.19934 -8.44933 0
+41.19952 -8.4493 0
+41.1997 -8.44928 0
+41.1999 -8.44927 0
+41.20027 -8.44927 0
+41.20327 -8.44944 0
+41.20497 -8.44957 0
+41.20509 -8.44957 0
+41.20558 -8.44961 0
+41.20616 -8.44964 0
+41.20669 -8.44969 0
+41.20897 -8.44984 0
+41.20946 -8.44989 0
+41.21009 -8.45001 0
+41.21029 -8.45006 0
+41.21075 -8.4502 0
+41.21124 -8.45039 0
+41.2116 -8.45055 0
+41.21205 -8.45079 0
+41.21297 -8.45134 0
+41.21298 -8.45135 0
+41.21345 -8.45161 0

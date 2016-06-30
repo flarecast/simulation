@@ -19,6 +19,6 @@ class SimulationDetector(Detector):
 
         while True:
             #lifetime = pickle.loads(unity_socket.recv(1024))
-            lifetime = struct.unpack('i', s.recv(4))[0]
+            lifetime = struct.unpack('f', s.recv(4))[0]
             print("LIFETIME: ", lifetime)
             self.interpret(lifetime)
